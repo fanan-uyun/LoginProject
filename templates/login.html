@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+    登录
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/static/css/register.css">
+{% endblock %}
+
+{% block sign %}
+    登录
+{% endblock %}
+{% block content %}
+    <form class="register_form" action="" method="post">
+    {% csrf_token %}
+        <p>
+            <label>账户</label>
+            <input type="text" name="username">
+        </p>
+        <p>
+            <label>密码</label>
+            <input type="password" name="password">
+        </p>
+        <p>
+            <input type="submit" value="登录" style="color: honeydew;background-color: forestgreen;">
+        </p>
+        <p style="color: red">{{ result.content }}</p>
+    </form>
+{% endblock %}

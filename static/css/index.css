@@ -1,0 +1,11 @@
+.exit{
+    /*background-color: red;*/
+    position: absolute;
+    top: -50%;
+    left: 90%;
+}
+
+.exit a{
+    color: floralwhite;
+    text-decoration: none;
+}
