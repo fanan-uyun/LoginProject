@@ -1,6 +1,6 @@
 from django.shortcuts import render,render_to_response
 from LoginApp.models import LoginUser
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,JsonResponse
 import hashlib
 # Create your views here.
 # v1.1新增密码加密功能，对注册、登录加密
@@ -90,7 +90,25 @@ def login(request):
 def logout(request):
     response = HttpResponseRedirect("/login/")
     response.delete_cookie("username")
+    del request.session["username"]
     return response
+
+# v1.3 新增前端ajax 用户名重复校验,使用get请求
+# ajx 数据处理视图函数
+def ajax_userValid(request):
+    result = {"status":"error","content": ""}
+    username = request.GET.get("username")
+    if username:
+        u = userValid(username)
+        if u:
+            result["content"] = "账户已注册"
+        else:
+            result["status"] = "success"
+            result["content"] = "账户可以使用"
+    else:
+        result["content"] = "用户名不可以为空"
+
+    return JsonResponse(result)
 
 
 

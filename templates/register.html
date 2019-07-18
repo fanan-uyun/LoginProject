@@ -6,6 +6,7 @@
 
 {% block style %}
     <link rel="stylesheet" href="/static/css/register.css">
+    <script src="/static/js/jquery.min.js"></script>
 {% endblock %}
 
 {% block sign %}
@@ -16,15 +17,44 @@
     {% csrf_token %}
         <p>
             <label>账户</label>
-            <input type="text" name="username">
+            <input type="text" name="username" id="id_username">
         </p>
         <p>
             <label>密码</label>
             <input type="password" name="password">
         </p>
         <p>
-            <input type="submit" value="注册" style="color: honeydew;background-color: forestgreen;">
+            <input id="submit" type="submit" value="注册">
         </p>
-        <p style="color: red">{{ result.content }}</p>
+        <p id="message" style="color: red">{{ result.content }}</p>
     </form>
+    <script> // v1.3 新增ajax前端用户名校验
+        $("#id_username").blur( //对账户输入框失去焦点所进行的操作
+            function () {
+                var username = $("#id_username").val(); //获取账户输入框数据
+                var url = "/ajax/?username="+username; //拼接url
+                {#alert(url)#}
+                $.ajax(
+                    {
+                        url: url,
+                        type: "get",
+                        data: "",
+                        success: function (data) {
+                            {#console.log(data)#}
+                            $("#message").text(data.content); //将提示信息显示在前端
+                            var st = data.status; //获取状态，若为error，则使注册按钮失效
+                            if(st=="error"){
+                                $("#submit").attr("disabled",true)
+                            }else {
+                                $("#submit").attr("disabled",false)
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        }
+                    }
+                )
+            }
+        )
+    </script>
 {% endblock %}
