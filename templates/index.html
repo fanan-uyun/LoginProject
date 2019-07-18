@@ -11,6 +11,7 @@
     <p>index | 首页</p>
     <p>欢迎您！</p>
     <div class="exit">
+        <span>欢迎：{{ request.COOKIES.username }}</span>
         <a href="/logout/">退出</a>
     </div>
 {% endblock %}
